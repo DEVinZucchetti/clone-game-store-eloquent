@@ -50,11 +50,11 @@ class AvaliationController extends Controller
 
     public function show($id)
     {
-        $asset = Asset::find($id);
+        $avaliation = Avaliation::find($id);
 
-        if (!$asset) return response()->json(['message' => 'ativo não encontrado'], 404);
+        if (!$avaliation) return response()->json(['message' => 'ativo não encontrado'], 404);
 
-        return $asset;
+        return $avaliation;
     }
 
     public function update(Request $request, $id)

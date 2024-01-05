@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Asset;
-use Exception;
+use App\Models\ProductAsset;
 use Illuminate\Http\Request;
 
 class ProductAssetController extends Controller
 {
     public function index()
     {
-        $assets = Asset::all();
+        $assets = ProductAsset::all();
         return $assets;
     }
 
@@ -23,17 +22,17 @@ class ProductAssetController extends Controller
 
             $data = $request->all();
 
-            $asset = Asset::create($data);
+            $asset = ProductAsset::create($data);
 
             return $asset;
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 400);
         }
     }
 
     public function show($id)
     {
-        $asset = Asset::find($id);
+        $asset = ProductAsset::find($id);
 
         if (!$asset) return response()->json(['message' => 'ativo não encontrado'], 404);
 
@@ -45,7 +44,7 @@ class ProductAssetController extends Controller
         try {
 
 
-            $asset = Asset::find($id);
+            $asset = ProductAsset::find($id);
 
             if (!$asset) return response()->json(['message' => 'ativo não encontrado'], 404);
 
@@ -56,14 +55,14 @@ class ProductAssetController extends Controller
             $asset->update($request->all());
 
             return $asset;
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 400);
         }
     }
 
     public function destroy($id)
     {
-        $asset = Asset::find($id);
+        $asset = ProductAsset::find($id);
 
         if (!$asset) return response()->json(['message' => 'ativo não encontrado'], 404);
 

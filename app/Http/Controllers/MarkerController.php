@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Marker;
-use Exception;
 use Illuminate\Http\Request;
 
 class MarkerController extends Controller
@@ -23,18 +22,18 @@ class MarkerController extends Controller
             $data = $request->all();
             $marker = Marker::create($data);
             return $marker;
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 400);
         }
     }
 
     public function show($id)
     {
-        $asset = Asset::find($id);
+        $markers = Marker::find($id);
 
-        if (!$asset) return response()->json(['message' => 'ativo não encontrado'], 404);
+        if (!$markers) return response()->json(['message' => 'ativo não encontrado'], 404);
 
-        return $asset;
+        return $markers;
     }
 
     public function update($id, Request $request)
@@ -44,11 +43,11 @@ class MarkerController extends Controller
                 'name' => 'required|unique:products|string|max:150'
             ]);
 
-            $product = Product::find($id);
+            $markers = Marker::find($id);
 
-            if (!$product) return response()->json(['message' => 'Produto não encontrado'], 404);
+            if (!$markers) return response()->json(['message' => 'Produto não encontrado'], 404);
 
-            $product->update($request->all());
+            $markers->update($request->all());
         } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 400);
         }
@@ -56,11 +55,11 @@ class MarkerController extends Controller
 
     public function destroy($id)
     {
-        $asset = Asset::find($id);
+        $markers = Marker::find($id);
 
-        if (!$asset) return response()->json(['message' => 'ativo não encontrado'], 404);
+        if (!$markers) return response()->json(['message' => 'ativo não encontrado'], 404);
 
-        $asset->delete();
+        $markers->delete();
 
         return response('deletado', 204);
     }

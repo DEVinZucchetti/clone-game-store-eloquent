@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
-        return $products;
+        $categorys = Category::all();
+        return $categorys;
     }
 
     public function store(Request $request)
@@ -20,8 +21,8 @@ class CategoryController extends Controller
                 'name' => 'required|unique:products|string|max:150'
             ]);
             $data = $request->all();
-            $product = Product::create($data);
-            return $product;
+            $categorys = Category::create($data);
+            return $categorys;
         } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 400);
         }
@@ -29,11 +30,11 @@ class CategoryController extends Controller
 
     public function show($id)
     {
-        $asset = Asset::find($id);
+        $categorys = Category::find($id);
 
-        if (!$asset) return response()->json(['message' => 'ativo não encontrado'], 404);
+        if (!$categorys) return response()->json(['message' => 'ativo não encontrado'], 404);
 
-        return $asset;
+        return $categorys;
     }
 
     public function update($id, Request $request)
@@ -43,11 +44,11 @@ class CategoryController extends Controller
                 'name' => 'required|unique:products|string|max:150'
             ]);
 
-            $product = Product::find($id);
+            $categorys = Category::find($id);
 
-            if (!$product) return response()->json(['message' => 'Produto não encontrado'], 404);
+            if (!$categorys) return response()->json(['message' => 'Produto não encontrado'], 404);
 
-            $product->update($request->all());
+            $categorys->update($request->all());
         } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 400);
         }
@@ -55,12 +56,10 @@ class CategoryController extends Controller
 
     public function destroy($id)
     {
-        $product = Product::find($id);
-        if (!$product) return response()->json(['message' => 'Produto não encontrado'], 404);
+        $categorys = Category::find($id);
+        if (!$categorys) return response()->json(['message' => 'Produto não encontrado'], 404);
 
-        $product->delete();
+        $categorys->delete();
         return response('', 204);
     }
-
-    // AJUSTAR
 }

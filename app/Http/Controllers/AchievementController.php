@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Achievement;
 use Illuminate\Http\Request;
-use Exception;
 
 class AchievementController extends Controller
 {
@@ -26,21 +25,21 @@ class AchievementController extends Controller
 
             $data = $request->all();
 
-            $asset = Asset::create($data);
+            $achievement = Achievement::create($data);
 
-            return $asset;
-        } catch (Exception $exception) {
+            return $achievement;
+        } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 400);
         }
     }
 
     public function show($id)
     {
-        $asset = Asset::find($id);
+        $achievement = Achievement::find($id);
 
-        if (!$asset) return response()->json(['message' => 'ativo não encontrado'], 404);
+        if (!$achievement) return response()->json(['message' => 'ativo não encontrado'], 404);
 
-        return $asset;
+        return $achievement;
     }
 
     public function update($id, Request $request)
@@ -48,18 +47,18 @@ class AchievementController extends Controller
         try {
 
 
-            $asset = Asset::find($id);
+            $achievement = Achievement::find($id);
 
-            if (!$asset) return response()->json(['message' => 'ativo não encontrado'], 404);
+            if (!$achievement) return response()->json(['message' => 'ativo não encontrado'], 404);
 
             $request->validate([
                 'name' => 'required|string|max:150'
             ]);
 
-            $asset->update($request->all());
+            $achievement->update($request->all());
 
-            return $asset;
-        } catch (Exception $exception) {
+            return $achievement;
+        } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 400);
         }
     }

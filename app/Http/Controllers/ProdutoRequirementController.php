@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductRequirement;
 use Illuminate\Http\Request;
 
 class ProdutoRequirementController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
+        $products = ProductRequirement::all();
         return $products;
     }
 
@@ -20,7 +21,7 @@ class ProdutoRequirementController extends Controller
                 'name' => 'required|unique:products|string|max:150'
             ]);
             $data = $request->all();
-            $product = Product::create($data);
+            $product = ProductRequirement::create($data);
             return $product;
         } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 400);
@@ -29,11 +30,11 @@ class ProdutoRequirementController extends Controller
 
     public function show($id)
     {
-        $product = Product::find($id);
+        $productRequeriment = ProductRequirement::find($id);
 
-        if (!$product) return response()->json(['message' => 'Produto não encontrado'], 404);
+        if (!$productRequeriment) return response()->json(['message' => 'Produto não encontrado'], 404);
 
-        return $product;
+        return $productRequeriment;
     }
 
     public function update($id, Request $request)
@@ -43,11 +44,11 @@ class ProdutoRequirementController extends Controller
                 'name' => 'required|unique:products|string|max:150'
             ]);
 
-            $product = Product::find($id);
+            $productRequeriment = ProductRequirement::find($id);
 
-            if (!$product) return response()->json(['message' => 'Produto não encontrado'], 404);
+            if (!$productRequeriment) return response()->json(['message' => 'Produto não encontrado'], 404);
 
-            $product->update($request->all());
+            $productRequeriment->update($request->all());
         } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 400);
         }
@@ -55,10 +56,10 @@ class ProdutoRequirementController extends Controller
 
     public function destroy($id)
     {
-        $product = Product::find($id);
-        if (!$product) return response()->json(['message' => 'Produto não encontrado'], 404);
+        $productRequeriment = ProductRequirement::find($id);
+        if (!$productRequeriment) return response()->json(['message' => 'Produto não encontrado'], 404);
 
-        $product->delete();
+        $productRequeriment->delete();
         return response('', 204);
     }
 

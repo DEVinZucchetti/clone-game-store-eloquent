@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductMarker;
-use Exception;
 use Illuminate\Http\Request;
 
 class ProductMarkerController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
-        return $products;
+        $productMarker = ProductMarker::all();
+        return $productMarker;
     }
 
     public function store(Request $request)
@@ -25,18 +24,18 @@ class ProductMarkerController extends Controller
             $productMarker = ProductMarker::create($data);
 
             return $productMarker;
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 400);
         }
     }
 
     public function show($id)
     {
-        $product = Product::find($id);
+        $productMarker = ProductMarker::find($id);
 
-        if (!$product) return response()->json(['message' => 'Produto não encontrado'], 404);
+        if (!$productMarker) return response()->json(['message' => 'Produto não encontrado'], 404);
 
-        return $product;
+        return $productMarker;
     }
 
     public function update($id, Request $request)
@@ -46,11 +45,11 @@ class ProductMarkerController extends Controller
                 'name' => 'required|unique:products|string|max:150'
             ]);
 
-            $product = Product::find($id);
+            $productMarker = ProductMarker::find($id);
 
-            if (!$product) return response()->json(['message' => 'Produto não encontrado'], 404);
+            if (!$productMarker) return response()->json(['message' => 'Produto não encontrado'], 404);
 
-            $product->update($request->all());
+            $productMarker->update($request->all());
         } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 400);
         }
@@ -58,10 +57,10 @@ class ProductMarkerController extends Controller
 
     public function destroy($id)
     {
-        $product = Product::find($id);
-        if (!$product) return response()->json(['message' => 'Produto não encontrado'], 404);
+        $productMarker = ProductMarker::find($id);
+        if (!$productMarker) return response()->json(['message' => 'Produto não encontrado'], 404);
 
-        $product->delete();
+        $productMarker->delete();
         return response('', 204);
     }
 }
