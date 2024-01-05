@@ -6,7 +6,7 @@ use App\Models\Asset;
 use Exception;
 use Illuminate\Http\Request;
 
-class AssetController extends Controller
+class ProductAssetController extends Controller
 {
     public function index()
     {
