@@ -3,7 +3,17 @@
 use App\Http\Controllers\AssetController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AchievementController;
+use App\Http\Controllers\MarkerController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductMarkerController;
+
+// Route:resource('products', [ProductController::class])
+
+Route::get('products', [ProductController::class, 'index']);
+Route::post('products', [ProductController::class, 'store']);
+Route::get('products/{id}', [ProductController::class, 'show']);
+Route::delete('products/{id}', [ProductController::class, 'destroy']);
+Route::put('products/{id}', [ProductController::class, 'update']);
 
 Route::get('achievements', [AchievementController::class, 'index']);
 Route::post('achievements', [AchievementController::class, 'store']);
