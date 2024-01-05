@@ -18,47 +18,47 @@ class ProductController extends Controller
 
         try {
             $request->validade([
-                'name'=> 'required|unique:products|string|max:150'
+                'name' => 'required|unique:products|string|max:150'
             ]);
-            $data =$request->all();
+            $data = $request->all();
             $product = Product::create($data);
             return $product;
-
         } catch (\Exception $exception) {
-            return response()->json(['message'=> $exception->getMessage()], 400);
+            return response()->json(['message' => $exception->getMessage()], 400);
         }
-
-
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $product = Product::find($id);
 
-        if(!$product) return response()->json(['message'=> 'Produto não encontrado'], 404);
-        
+        if (!$product) return response()->json(['message' => 'Produto não encontrado'], 404);
+
         return $product;
     }
 
-    public function update($id, Request $request){
+    public function update($id, Request $request)
+    {
         try {
-        $request->validade([
-            'name'=> 'required|unique:products|string|max:150'
-        ]);
+            $request->validade([
+                'name' => 'required|unique:products|string|max:150'
+            ]);
 
-        $product = Product::find($id);
+            $product = Product::find($id);
 
-        if(!$product) return response()->json(['message'=> 'Produto não encontrado'], 404);
+            if (!$product) return response()->json(['message' => 'Produto não encontrado'], 404);
 
-        $product->update($request->all());
-    } catch (\Exception $exception) {
-        return response()->json(['message'=> $exception->getMessage()], 400);
+            $product->update($request->all());
+        } catch (\Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], 400);
+        }
     }
-    }
-    
-    public function destroy($id){
+
+    public function destroy($id)
+    {
         $product = Product::find($id);
-        if(!$product) return response()->json(['message'=> 'Produto não encontrado'], 404);
-        
+        if (!$product) return response()->json(['message' => 'Produto não encontrado'], 404);
+
         $product->delete();
         return response('', 204);
     }

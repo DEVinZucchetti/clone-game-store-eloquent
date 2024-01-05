@@ -47,6 +47,16 @@ class AvaliationController extends Controller
             ], 500);
         }
     }
+
+    public function show($id)
+    {
+        $asset = Asset::find($id);
+
+        if (!$asset) return response()->json(['message' => 'ativo não encontrado'], 404);
+
+        return $asset;
+    }
+
     public function update(Request $request, $id)
     {
         try {
@@ -110,5 +120,4 @@ class AvaliationController extends Controller
             ], 500);
         }
     }
-
 }
