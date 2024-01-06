@@ -9,6 +9,16 @@ class Achievement extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id', 'url', 'name', 'description'];
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $fillable = [
+        'product_id',
+        'url',
+        'name',
+        'description',
+    ];
+
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 }

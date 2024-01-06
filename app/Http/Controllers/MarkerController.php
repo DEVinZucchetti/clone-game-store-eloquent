@@ -17,10 +17,13 @@ class MarkerController extends Controller
     {
         try {
             $request->validate([
-                'name' => 'required|unique:markers|string|max:100'
+                'name' => 'required|unique:markers|string|max:100',
+                'color' => 'required|string|max:20', // Adicione a validação para 'color' se necessário
             ]);
+
             $data = $request->all();
             $marker = Marker::create($data);
+
             return $marker;
         } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 400);
@@ -29,25 +32,28 @@ class MarkerController extends Controller
 
     public function show($id)
     {
-        $markers = Marker::find($id);
+        $marker = Marker::find($id);
 
-        if (!$markers) return response()->json(['message' => 'ativo não encontrado'], 404);
+        if (!$marker) return response()->json(['message' => 'Marker não encontrado'], 404);
 
-        return $markers;
+        return $marker;
     }
 
     public function update($id, Request $request)
     {
         try {
-            $request->validade([
-                'name' => 'required|unique:products|string|max:150'
+            $request->validate([
+                'name' => 'required|unique:markers|string|max:150',
+                'color' => 'string|max:20', 
             ]);
 
-            $markers = Marker::find($id);
+            $marker = Marker::find($id);
 
-            if (!$markers) return response()->json(['message' => 'Produto não encontrado'], 404);
+            if (!$marker) return response()->json(['message' => 'Marker não encontrado'], 404);
 
-            $markers->update($request->all());
+            $marker->update($request->all());
+
+            return $marker; 
         } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 400);
         }
@@ -55,12 +61,12 @@ class MarkerController extends Controller
 
     public function destroy($id)
     {
-        $markers = Marker::find($id);
+        $marker = Marker::find($id);
 
-        if (!$markers) return response()->json(['message' => 'ativo não encontrado'], 404);
+        if (!$marker) return response()->json(['message' => 'Marker não encontrado'], 404);
 
-        $markers->delete();
+        $marker->delete();
 
-        return response('deletado', 204);
+        return response('Deletado', 204);
     }
 }

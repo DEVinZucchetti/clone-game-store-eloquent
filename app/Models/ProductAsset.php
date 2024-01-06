@@ -9,7 +9,16 @@ class ProductAsset extends Model
 {
     use HasFactory;
 
-    protected $table = 'assets';
+    protected $fillable = [
+        'product_id',
+        'name',
+        'url',
+        'type',
+    ];
 
-    protected $fillable = ['name', 'product_id', 'url', 'types_games_assets'];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 }

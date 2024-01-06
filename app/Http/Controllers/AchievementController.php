@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Achievement;
@@ -9,10 +8,8 @@ class AchievementController extends Controller
 {
     public function index(Request $request)
     {
-
         $product_id = $request->query('product_id');
-
-        $achievements = Achievement::query()->where('product_id', $product_id)->get();
+        $achievements = Achievement::where('product_id', $product_id)->get();
         return $achievements;
     }
 
@@ -20,11 +17,13 @@ class AchievementController extends Controller
     {
         try {
             $request->validate([
-                'name' => 'required|string|max:150'
+                'product_id' => 'required|integer',
+                'url' => 'required|integer',
+                'name' => 'required|unique:achievements|string',
+                'description' => 'nullable|string',
             ]);
 
             $data = $request->all();
-
             $achievement = Achievement::create($data);
 
             return $achievement;
@@ -37,7 +36,7 @@ class AchievementController extends Controller
     {
         $achievement = Achievement::find($id);
 
-        if (!$achievement) return response()->json(['message' => 'ativo não encontrado'], 404);
+        if (!$achievement) return response()->json(['message' => 'Conquista não encontrada'], 404);
 
         return $achievement;
     }
@@ -45,15 +44,16 @@ class AchievementController extends Controller
     public function update($id, Request $request)
     {
         try {
-
+            $request->validate([
+                'product_id' => 'required|integer',
+                'url' => 'required|integer',
+                'name' => 'required|unique:achievements|string',
+                'description' => 'nullable|string',
+            ]);
 
             $achievement = Achievement::find($id);
 
-            if (!$achievement) return response()->json(['message' => 'ativo não encontrado'], 404);
-
-            $request->validate([
-                'name' => 'required|string|max:150'
-            ]);
+            if (!$achievement) return response()->json(['message' => 'Conquista não encontrada'], 404);
 
             $achievement->update($request->all());
 
@@ -67,10 +67,10 @@ class AchievementController extends Controller
     {
         $achievement = Achievement::find($id);
 
-        if (!$achievement) return response()->json(['message' => 'A conquista não foi encontrada! Por favor, tente novamente ou envie um ticket para nosso suporte.'], 404);
+        if (!$achievement) return response()->json(['message' => 'Conquista não encontrada'], 404);
 
         $achievement->delete();
 
-        return response(['message' => 'A conquista foi excluída com sucesso!'], 204);
+        return response(['message' => 'Conquista excluída com sucesso!'], 204);
     }
 }

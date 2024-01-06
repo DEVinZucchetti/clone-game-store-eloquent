@@ -9,8 +9,8 @@ class ProductMarkerController extends Controller
 {
     public function index()
     {
-        $productMarker = ProductMarker::all();
-        return $productMarker;
+        $productMarkers = ProductMarker::all();
+        return $productMarkers;
     }
 
     public function store(Request $request)
@@ -20,6 +20,7 @@ class ProductMarkerController extends Controller
                 'product_id' => 'required|integer',
                 'marker_id' => 'required|integer'
             ]);
+
             $data = $request->all();
             $productMarker = ProductMarker::create($data);
 
@@ -41,8 +42,9 @@ class ProductMarkerController extends Controller
     public function update($id, Request $request)
     {
         try {
-            $request->validade([
-                'name' => 'required|unique:products|string|max:150'
+            $request->validate([
+                'product_id' => 'required|integer',
+                'marker_id' => 'required|integer'
             ]);
 
             $productMarker = ProductMarker::find($id);
@@ -58,9 +60,11 @@ class ProductMarkerController extends Controller
     public function destroy($id)
     {
         $productMarker = ProductMarker::find($id);
+
         if (!$productMarker) return response()->json(['message' => 'Produto não encontrado'], 404);
 
         $productMarker->delete();
+
         return response('', 204);
     }
 }

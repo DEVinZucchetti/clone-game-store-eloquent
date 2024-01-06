@@ -4,15 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAvaliationsTable extends Migration
+class CreateProductsAssetsTable extends Migration
 {
     public function up()
     {
-        Schema::create('avaliations', function (Blueprint $table) {
+        Schema::create('products_assets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');
-            $table->text('description');
-            $table->boolean('recommended');
+            $table->string('name');
+            $table->integer('url');
+            $table->enum('type', ['MINIMUNS', 'RECOMMENDED']);
             $table->timestamps();
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
@@ -21,6 +22,6 @@ class CreateAvaliationsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('avaliations');
+        Schema::dropIfExists('products_assets');
     }
 }

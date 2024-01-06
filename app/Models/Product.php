@@ -9,10 +9,15 @@ class Product extends Model
 {
     use HasFactory;
 
-
-    protected $fillable = ['name', 'price', 'cover', 'description'];
-
-    protected $casts = [
-        'price' => 'float'
+    protected $fillable = [
+        'name',
+        'price',
+        'description',
+        'cover',
     ];
+
+    public function avaliations()
+    {
+        return $this->hasMany(Avaliation::class);
+    }
 }

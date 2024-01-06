@@ -17,16 +17,14 @@ class ProductAssetController extends Controller
     {
         try {
             $request->validate([
-                'name' => 'required|string|max:150'
+                'name' => 'required|string|max:150',
             ]);
 
-            $data = $request->all();
+            $asset = ProductAsset::create($request->all());
 
-            $asset = ProductAsset::create($data);
-
-            return $asset;
+            return $this->successResponse($asset, 'Ativo criado com sucesso.');
         } catch (\Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], 400);
+            return $this->errorResponse($exception->getMessage(), 400);
         }
     }
 
@@ -34,7 +32,7 @@ class ProductAssetController extends Controller
     {
         $asset = ProductAsset::find($id);
 
-        if (!$asset) return response()->json(['message' => 'ativo não encontrado'], 404);
+        if (!$asset) return $this->errorResponse('Ativo não encontrado.', 404);
 
         return $asset;
     }
@@ -42,21 +40,16 @@ class ProductAssetController extends Controller
     public function update($id, Request $request)
     {
         try {
-
-
-            $asset = ProductAsset::find($id);
-
-            if (!$asset) return response()->json(['message' => 'ativo não encontrado'], 404);
-
             $request->validate([
-                'name' => 'required|string|max:150'
+                'name' => 'required|string|max:150',
             ]);
 
+            $asset = ProductAsset::findOrFail($id);
             $asset->update($request->all());
 
-            return $asset;
+            return $this->successResponse($asset, 'Ativo atualizado com sucesso.');
         } catch (\Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], 400);
+            return $this->errorResponse($exception->getMessage(), 400);
         }
     }
 
@@ -64,10 +57,20 @@ class ProductAssetController extends Controller
     {
         $asset = ProductAsset::find($id);
 
-        if (!$asset) return response()->json(['message' => 'ativo não encontrado'], 404);
+        if (!$asset) return $this->errorResponse('Ativo não encontrado.', 404);
 
         $asset->delete();
 
-        return response('deletado', 204);
+        return response('Deletado', 204);
+    }
+
+    private function successResponse($data, $message)
+    {
+        return response()->json(['success' => true, 'data' => $data, 'message' => $message], 200);
+    }
+
+    private function errorResponse($message, $statusCode)
+    {
+        return response()->json(['success' => false, 'message' => $message], $statusCode);
     }
 }

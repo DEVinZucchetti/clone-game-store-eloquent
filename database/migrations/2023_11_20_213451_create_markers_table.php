@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('markers', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100)->unique();
+            $table->string('name', 150)->unique();
             $table->string('color', 20);
             $table->timestamps();
         });

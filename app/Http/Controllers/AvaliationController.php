@@ -12,39 +12,25 @@ class AvaliationController extends Controller
         try {
             $avaliation = Avaliation::all();
 
-            return response()->json([
-                'success' => true,
-                'data' => $avaliation,
-                'message' => count($avaliation) . ' avaliações encontradas.'
-            ], 200);
+            return $this->successResponse($avaliation, count($avaliation) . ' avaliações encontradas.');
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erro interno do servidor.'
-            ], 500);
+            return $this->errorResponse('Erro interno do servidor.', 500);
         }
     }
 
     public function store(Request $request)
     {
         try {
-
-            // Cria uma avaliação
-            $avaliation = Avaliation::create([
-                'description' => $request->input('description'),
-                'recommended' => $request->input('recommended'),
-
+            $request->validate([
+                'description' => 'required|string|max:255',
+                'recommended' => 'required|boolean',
             ]);
-            return response()->json([
-                'success' => true,
-                'data' => $avaliation,
-                'message' => 'Avaliação cadastrada com sucesso.'
-            ], 200);
+
+            $avaliation = Avaliation::create($request->all());
+
+            return $this->successResponse($avaliation, 'Avaliação cadastrada com sucesso.');
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erro interno do servidor(aqui).'
-            ], 500);
+            return $this->errorResponse('Erro interno do servidor.', 500);
         }
     }
 
@@ -52,7 +38,9 @@ class AvaliationController extends Controller
     {
         $avaliation = Avaliation::find($id);
 
-        if (!$avaliation) return response()->json(['message' => 'ativo não encontrado'], 404);
+        if (!$avaliation) {
+            return $this->errorResponse('Avaliação não encontrada.', 404);
+        }
 
         return $avaliation;
     }
@@ -60,64 +48,40 @@ class AvaliationController extends Controller
     public function update(Request $request, $id)
     {
         try {
-
-            // Busca a avaliação pelo ID
-            $avaliation = Avaliation::find($id);
-
-            // Se a avaliation não existir, retorna um erro
-            if (!$avaliation) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Avaliação não encontrada.'
-                ], 404);
-            }
-
-            // Atualiza os dados de uma avaliação
-            $avaliation->update([
-                'description' => $request->input('description'),
-                'recommended' => $request->input('recommended'),
+            $request->validate([
+                'description' => 'required|string|max:255',
+                'recommended' => 'required|boolean',
             ]);
 
-            return response()->json([
-                'success' => true,
-                'data' => $avaliation,
-                'message' => 'Avaliação atualizada com sucesso.'
-            ], 200);
+            $avaliation = Avaliation::findOrFail($id);
+            $avaliation->update($request->all());
+
+            return $this->successResponse($avaliation, 'Avaliação atualizada com sucesso.');
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erro interno do servidor.'
-            ], 500);
+            return $this->errorResponse('Erro interno do servidor.', 500);
         }
     }
 
     public function destroy($id)
     {
         try {
-
-            $avaliation = Avaliation::find($id);
-
-            // Se a avaliation não existir, retorna um erro
-            if (!$avaliation) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Avaliação não encontrada.'
-                ], 404);
-            }
-
-            // Remove a pessoa do banco de dados
+            $avaliation = Avaliation::findOrFail($id);
             $avaliation->delete();
 
-            return response()->json([
-                'success' => true,
-                'data' => $avaliation,
-                'message' => 'Avaliação deletada com sucesso.'
-            ], 200);
+            return $this->successResponse($avaliation, 'Avaliação deletada com sucesso.');
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erro interno do servidor.'
-            ], 500);
+            return $this->errorResponse('Erro interno do servidor.', 500);
         }
     }
+
+    private function successResponse($data, $message)
+    {
+        return response()->json(['success' => true, 'data' => $data, 'message' => $message], 200);
+    }
+
+    private function errorResponse($message, $statusCode)
+    {
+        return response()->json(['success' => false, 'message' => $message], $statusCode);
+    }
 }
+
