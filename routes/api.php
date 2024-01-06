@@ -3,8 +3,12 @@
 use App\Http\Controllers\AssetController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AchievementController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MarkerController;
 use App\Http\Controllers\ProductMarkerController;
 use App\Http\Controllers\ProductRequirementController;
+
+Route::resource('categories', CategoryController::class)->except(['create', 'edit']);
 
 Route::get('achievements', [AchievementController::class, 'index']);
 Route::post('achievements', [AchievementController::class, 'store']);
