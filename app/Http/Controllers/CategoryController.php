@@ -18,7 +18,8 @@ class CategoryController extends Controller
     {
         try {
             $request->validate([
-                'name' => 'required|unique:categories|string|max:50'
+                'name' => 'required|unique:categories',
+                'description' => 'nullable',
             ]);
 
             $data = $request->all();
@@ -47,10 +48,8 @@ class CategoryController extends Controller
 
         try {
             $request->validate([
-                'name' => [
-                    'required',
-                    Rule::unique('categories')->ignore($category->id),
-                ]
+                'name' => 'required|unique:categories',
+                'description' => 'nullable',
             ]);
 
             $category->update($request->all());

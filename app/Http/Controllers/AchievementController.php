@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 
 class AchievementController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $product_id = $request->query('product_id');
-        $achievements = Achievement::where('product_id', $product_id)->get();
+      
+        $achievements = Achievement::all();
         return $achievements;
     }
 

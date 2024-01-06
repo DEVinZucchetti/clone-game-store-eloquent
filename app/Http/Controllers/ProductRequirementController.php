@@ -17,13 +17,17 @@ class ProductRequirementController extends Controller
     {
         try {
             $request->validate([
-                'name' => 'required|unique:product_requirements|string|max:150'
+                'product_id' => 'required|integer|exists:products,id',
+                'operational_system' => 'nullable|string',
+                'memory' => 'nullable|string',
+                'storage' => 'nullable|string',
+                'observations' => 'nullable|string',
+                'type' => 'nullable|in:MINIMUNS,RECOMMENDED',
             ]);
 
-            $data = $request->all();
-            $productRequirement = ProductRequirement::create($data);
+            $productRequirement = ProductRequirement::create($request->all());
 
-            return $productRequirement;
+            return response()->json($productRequirement, 201);
         } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 400);
         }
@@ -42,7 +46,12 @@ class ProductRequirementController extends Controller
     {
         try {
             $request->validate([
-                'name' => 'required|unique:product_requirements|string|max:150'
+                'product_id' => 'required|integer|exists:products,id',
+                'operational_system' => 'nullable|string',
+                'memory' => 'nullable|string',
+                'storage' => 'nullable|string',
+                'observations' => 'nullable|string',
+                'type' => 'nullable|in:MINIMUNS,RECOMMENDED',
             ]);
 
             $productRequirement = ProductRequirement::find($id);

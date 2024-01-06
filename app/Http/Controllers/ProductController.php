@@ -18,7 +18,10 @@ class ProductController extends Controller
     {
         try {
             $request->validate([
-                'name' => 'required|unique:products|string|max:150'
+                'name' => 'required|unique:products|max:150',
+                'description' => 'nullable',
+                'cover' => 'nullable|url',
+                'price' => 'required|numeric|min:0',
             ]);
 
             $data = $request->all();
@@ -47,10 +50,10 @@ class ProductController extends Controller
 
         try {
             $request->validate([
-                'name' => [
-                    'required',
-                    Rule::unique('products')->ignore($product->id),
-                ]
+                'name' => 'required|unique:products|max:150',
+                'description' => 'nullable',
+                'cover' => 'nullable|url',
+                'price' => 'required|numeric|min:0',
             ]);
 
             $product->update($request->all());

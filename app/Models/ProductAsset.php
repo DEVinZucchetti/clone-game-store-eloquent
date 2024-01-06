@@ -16,7 +16,9 @@ class ProductAsset extends Model
         'type',
     ];
 
+    protected $table = 'products_assets';
 
+    
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');

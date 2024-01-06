@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductRequirementsTable extends Migration
+class CreateProductsRequirementsTable extends Migration
 {
     public function up()
     {
@@ -27,4 +27,3 @@ class CreateProductRequirementsTable extends Migration
         Schema::dropIfExists('product_requirements');
     }
 }
-

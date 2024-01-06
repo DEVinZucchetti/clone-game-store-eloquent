@@ -17,7 +17,10 @@ class ProductAssetController extends Controller
     {
         try {
             $request->validate([
-                'name' => 'required|string|max:150',
+                'product_id' => 'required|exists:products,id',
+                'name' => 'required',
+                'url' => 'required|url',
+                'type' => 'required|in:MINIMUNS,RECOMMENDED',
             ]);
 
             $asset = ProductAsset::create($request->all());
@@ -41,7 +44,10 @@ class ProductAssetController extends Controller
     {
         try {
             $request->validate([
-                'name' => 'required|string|max:150',
+                'product_id' => 'required|exists:products,id',
+                'name' => 'required',
+                'url' => 'required|url',
+                'type' => 'required|in:MINIMUNS,RECOMMENDED',
             ]);
 
             $asset = ProductAsset::findOrFail($id);

@@ -18,7 +18,7 @@ class MarkerController extends Controller
         try {
             $request->validate([
                 'name' => 'required|unique:markers|string|max:100',
-                'color' => 'required|string|max:20', // Adicione a validação para 'color' se necessário
+                'color' => 'required|string|max:20', 
             ]);
 
             $data = $request->all();

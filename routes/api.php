@@ -13,7 +13,7 @@ use App\Http\Controllers\ProductRequirementController;
 Route::resource('achievements', AchievementController::class)->except(['create', 'edit']);
 Route::resource('product-assets', ProductAssetController::class)->except(['create', 'edit']);
 Route::resource('avaliations', AvaliationController::class)->except(['create', 'edit']);
-Route::resource('categorys', CategoryController::class)->except(['create', 'edit']);
+Route::resource('categories', CategoryController::class)->except(['create', 'edit']);
 Route::resource('markers', MarkerController::class)->except(['create', 'edit']);
 Route::resource('products', ProductController::class)->except(['create', 'edit']);
 Route::resource('product-markers', ProductMarkerController::class)->except(['create', 'edit']);
